@@ -19,6 +19,7 @@ export const HomeScreen = () => {
           data={simplePokemonList}
           keyExtractor={(pokemon) => pokemon.id}
           numColumns={2}
+
           ListHeaderComponent={
             <Text
               style={{

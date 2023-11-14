@@ -1,42 +1,62 @@
+import { useEffect, useState, useRef } from "react";
 import {
   Dimensions,
   Image,
   Pressable,
   StyleSheet,
   Text,
+  TouchableOpacity,
   View,
 } from "react-native";
 import { SimplePokemon } from "../interface/pokemonInterface";
 import { FadeInImage } from "./FadeInImage";
-import { useEffect, useState } from "react";
-//import ImageColos from "react-native-image-colors";
-import {getColors} from "react-native-image-colors";
-//"react-native-image-colors": "^1.5.2"
 const { width } = Dimensions.get("window");
+
+import ImageColors from "react-native-image-colors";
+
+import { useNavigation,NavigationProp,ParamListBase } from "@react-navigation/native";
 interface Props {
   pokemon: SimplePokemon;
 }
 
 export const PokemonCard = ({ pokemon }: Props) => {
   const [bgColor, setbgColor] = useState("grey");
+  const isMounted = useRef(true);
+  const navigation = useNavigation<NavigationProp<ParamListBase>>();
 
-/*   useEffect(() => {
-    getColors(pokemon.picture, {
-      fallback: "grey",
-    }).then((colors) => {
-      colors.platform === "ios"
-        ? setbgColor(colors.background || "grey")
-        : setbgColor(colors.dominant || "grey");
-    });
-  }, []); */
+  useEffect(() => {
+    ImageColors.getColors(pokemon.picture, { fallback: "grey" })
+      .then((colors) => {
+        if (!isMounted.current) return;
+
+        if (colors.platform !== "ios") {
+
+          setbgColor(colors.dominant as string);
+        } /* else {
+          setbgColor(colors.dominant || "grey");
+        } */
+      })
+      .catch((e) => console.log(e));
+
+    return () => {
+      isMounted.current = false;
+    };
+  }, []);
+
 
   return (
-    <Pressable
+    <TouchableOpacity
       style={{
         ...styles.cardContainer,
         width: width * 0.4,
         backgroundColor: bgColor,
       }}
+      onPress={() =>
+        navigation.navigate("PokemonScreen", {
+          simplePokemon: pokemon,
+          color: bgColor,
+        })
+      }
     >
       <View>
         <Text style={styles.name}>
@@ -50,7 +70,7 @@ export const PokemonCard = ({ pokemon }: Props) => {
         />
       </View>
       <FadeInImage uri={pokemon.picture} style={styles.pokemonImg} />
-    </Pressable>
+    </TouchableOpacity>
   );
 };
 
