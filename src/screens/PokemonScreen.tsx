@@ -25,31 +25,32 @@ export const PokemonScreen = ({ navigation, route }: Props) => {
   return (
     <View style={{ flex: 1 }}>
       <View style={{ ...styles.headerContainer, backgroundColor: color }}>
-        <TouchableOpacity
-          onPress={() => navigation.pop()}
-          style={{ ...styles.backButton, top: top + 10 }}
-        >
-          <Ionicons name="md-arrow-back-outline" size={35} />
-        </TouchableOpacity>
-        <Text style={{ ...styles.pokemonName, top: top + 40 }}>
-          {name} {"\n#" + id}
-        </Text>
-        <Image
-          source={require("../assets/pokebola-blanca.png")}
-          style={{ ...styles.pokebola }}
-        />
-        <FadeInImage uri={picture} style={{ ...styles.pokemonImg }} />
 
-        {
-        isLoading ? (
-          <View style={{ ...styles.activityIndicator }}>
-            <ActivityIndicator color={color} size={50} />
-          </View>
-        ) : (
-          <PokemonDetails pokemon={pokemon}/>
-        )}
+          <TouchableOpacity
+            onPress={() => navigation.pop()}
+            style={{ ...styles.backButton, top: top + 10 }}
+          >
+            <Ionicons name="md-arrow-back-outline" size={35} />
+          </TouchableOpacity>
+          <Text style={{ ...styles.pokemonName, top: top + 40 }}>
+            {name} {"\n#" + id}
+          </Text>
+          <Image
+            source={require("../assets/pokebola-blanca.png")}
+            style={{ ...styles.pokebola }}
+          />
+          <FadeInImage uri={picture} style={{ ...styles.pokemonImg }} />
+
+        </View>
+          {isLoading ? (
+            <View style={{ ...styles.activityIndicator }}>
+              <ActivityIndicator color={color} size={50} />
+            </View>
+          ) : (
+            <PokemonDetails pokemon={pokemon} />
+          )}
       </View>
-    </View>
+
   );
 };
 
