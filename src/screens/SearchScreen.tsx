@@ -6,7 +6,7 @@ import { Loading } from "../components/Loading";
 import { global } from "../theme/Apptheme";
 import { PokemonCard } from "../components/PokemonCard";
 import { useEffect, useState } from "react";
-import { SimplePokemon, Pokemon } from "../interface/pokemonInterface";
+import { SimplePokemon, Pokemon } from '../interface/pokemonInterface';
 
 const { width } = Dimensions.get("window");
 
@@ -25,6 +25,10 @@ export const SearchScreen = () => {
           pokemon.name.toLocaleLowerCase().includes(term.toLocaleLowerCase())
         )
       );
+    }
+    else{
+      const pokemonById = simplePokemonList.find((pokemon)=> pokemon.id === term)
+      setPokemonFiltered((pokemonById) ? [pokemonById] : []);
     }
 
     
